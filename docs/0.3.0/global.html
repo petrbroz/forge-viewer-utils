@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      Home - Documentation
+      Global - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -51,14 +51,14 @@
 
   <div class="top-nav-wrapper">
     <ul>
-      <li  class="active" >
+      <li >
         <a href="index.html">
           
-          
-            <svg fill="#0095dd" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <svg fill="#6D6D6D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
               <path d="M0 0h24v24H0z" fill="none"/>
             </svg>
+          
           
         </a>
       </li>
@@ -87,81 +87,418 @@
 
   <div id="main">
     
+      <h1 class="page-title">
+        Global
+      </h1>
+    
 
     
+
+<section>
+  <header>
+    
+      <h2>
+        
+        
+        
+      </h2>
+
+      
+    
+  </header>
+
+  <article>
+    <div class="container-overview">
+      
+        
+
+        
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+        
+      
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+      <h3 class="subsection-title">Type Definitions</h3>
+
+      
+          
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#AccessTokenCallback">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="AccessTokenCallback">
+      <span class="type-signature"></span>AccessTokenCallback<span class="signature">(token, expires)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Callback function used to report access token to the viewer.</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
       
 
-
-
-    
+      <th>Type</th>
 
       
 
+      
 
-  <section class="readme">
-    <article>
-      <h1>Forge Power Viewer</h1><p>Collection of helpful tools for <a href="https://forge.autodesk.com/en/docs/viewer">Autodesk Forge Viewer</a>
-that are not (yet) part of its official <a href="https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d">API</a>.</p>
-<h2>Why?</h2><p>During <a href="http://autodeskcloudaccelerator.com">Forge Accelerator</a> events, there are often recurring themes
-of features that the attendees want to build, for example, finding a scene object under the mouse cursor,
-or being able to change the transform of an object. Unfortunately, many of these features cannot be built
-using the official <a href="https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d">APIs</a>,
-sending developers into the dreaded, undocumented area of internal APIs, also known as <code>viewer.impl</code>.</p>
-<p>The goal of this wrapper library is to:</p>
-<ul>
-<li>provide best practice examples of using the official APIs</li>
-<li>show how commonly requested features can be implemented, for now, using <code>viewer.impl</code></li>
-<li>provide more documentation to both the official and the <code>viewer.impl</code> APIs</li>
-<li>collect feedback for the <a href="https://forge.autodesk.com/en/docs/viewer">Forge Viewer</a> dev team</li>
-</ul>
-<h2>Usage</h2><p>Drop the library in your webpage. You can either use the latest <code>master</code> version:</p>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;ttps://petrbroz.github.io/forge-power-viewer/master/PowerViewer.js&quot;>&lt;/script></code></pre><p>Or a specific tagged version, for example <code>v0.1.0</code>:</p>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://petrbroz.github.io/forge-power-viewer/0.1.0/PowerViewer.js&quot;>&lt;/script></code></pre><blockquote>
-<p>Similarly, the documentation is available both for the latest <a href="https://petrbroz.github.io/forge-power-viewer/master/index.html">master</a>
-version and for all tagged versions, for example, <a href="https://petrbroz.github.io/forge-power-viewer/0.1.0/index.html">0.1.0</a>.</p>
-</blockquote>
-<p>Start usinig the <code>PowerViewer</code> class, either by wrapping an existing instance
-of <a href="https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d">Viewer3D</a>:</p>
-<pre class="prettyprint source lang-js"><code>const powerViewer = new PowerViewer(viewer3d);
-powerViewer.load(&quot;your-urn&quot;);</code></pre><p>Or by initializing everything using the static method <code>PowerViewer.Initialize</code>:</p>
-<pre class="prettyprint source lang-html"><code>&lt;div id=&quot;viewer&quot;>&lt;/div>
-&lt;script>
-  async function getAccessToken(callback) {
-      const resp = await fetch('/api/auth');
-      const json = await resp.json();
-      callback(json.access_token, json.expires_in);
-  }
-  async function run() {
-      try {
-          const powerViewer = await PowerViewer.Initialize(document.getElementById('viewer'), getAccessToken);
-          const viewable = await powerViewer.load(&quot;your-urn&quot;);
-          console.log('Viewable loaded successfully', viewable);
-      } catch(err) {
-          console.error(err);
-      }
-  }
-  run();
-&lt;/script></code></pre><h2>Development</h2><ul>
-<li>install dependencies: <code>npm install</code></li>
-<li>build code documentation: <code>npm run build:docs</code></li>
-<li>running the examples<ul>
-<li>you need two things: Forge app <em>credentials</em>, and an <em>urn</em> of a model to view<ul>
-<li>you can create a free Forge app at https://forge.autodesk.com</li>
-<li>to upload and translate a model for viewing, see the official <a href="https://forge.autodesk.com/en/docs/model-derivative/v2/tutorials/prepare-file-for-viewer">tutorial</a></li>
-</ul>
-</li>
-<li>run the example server with your Forge credentials:
-<code>FORGE_CLIENT_ID=&lt;client_id&gt; FORGE_CLIENT_SECRET=&lt;client_secret&gt; node examples/server.js</code></li>
-<li>open one of the example html files with an urn of your model as a url query,
-for example: http://localhost:3000/basic.html?dXyabcdefgh</li>
-</ul>
-</li>
-</ul>
-    </article>
-  </section>
+      <th class="last">Description</th>
+    </tr>
+  </thead>
 
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>token</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
 
     
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          <p>Access token.</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>expires</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      int
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          <p>Number of seconds after which the token expires.</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="PowerViewer.js.html">PowerViewer.js</a>, <a href="PowerViewer.js.html#line7">line 7</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+          
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#AccessTokenRequest">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="AccessTokenRequest">
+      <span class="type-signature"></span>AccessTokenRequest<span class="signature">(callback)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Callback function used by the viewer to request new access token.</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>callback</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      <a href="global.html#AccessTokenCallback">AccessTokenCallback</a>
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          <p>Access token callback.</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="PowerViewer.js.html">PowerViewer.js</a>, <a href="PowerViewer.js.html#line14">line 14</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+    
+  </article>
+</section>
+
+
 
 
   </div>
