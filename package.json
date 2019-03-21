@@ -1,0 +1,24 @@
+{
+  "name": "forge-power-viewer",
+  "version": "0.1.0",
+  "description": "Wrapper library for Autodesk Forge Viewer providing additional utility functions and documentation.",
+  "main": "src/PowerViewer.js",
+  "scripts": {
+    "build:docs": "jsdoc --configure .jsdoc.json --verbose"
+  },
+  "keywords": [
+    "autodesk",
+    "forge",
+    "viewer"
+  ],
+  "author": "Petr Broz <petr.broz@autodesk.com>",
+  "license": "MIT",
+  "directories": {
+    "example": "examples"
+  },
+  "devDependencies": {
+    "express": "^4.16.4",
+    "jsdoc": "^3.5.5",
+    "jsdoc-template": "git+https://github.com/braintree/jsdoc-template.git"
+  }
+}
