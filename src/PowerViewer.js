@@ -156,7 +156,7 @@ class PowerViewer {
      *   const bounds = ev.target.getBoundingClientRect();
      *   const intersections = powerViewer.rayCast(ev.clientX - bounds.left, ev.clientY - bounds.top);
      *   if (intersections.length > 0) {
-     *     console.log('hit', intersection[0]);
+     *     console.log('hit', intersections[0]);
      *   } else {
      *     console.log('miss');
      *   }
@@ -168,6 +168,20 @@ class PowerViewer {
         return intersections;
     }
 
+    /**
+     * Inserts custom {@link https://threejs.org/docs/#api/en/objects/Mesh|Mesh} into
+     * *overlay* scene of given name. An overlay scene is always rendered *after*
+     * the main scene with the Forge Viewer model.
+     * @param {THREE.Mesh} mesh Custom {@link https://threejs.org/docs/#api/en/objects/Mesh|Mesh}.
+     * @param {string} [overlay='PowerViewerOverlay'] Name of the overlay scene.
+     *
+     * @example
+     * const geometry = new THREE.SphereGeometry(10, 8, 8);
+     * const material = new THREE.MeshBasicMaterial({ color: 0x336699 });
+     * const mesh = new THREE.Mesh(geometry, material);
+     * mesh.position.x = 1.0; mesh.position.y = 2.0; mesh.position.z = 3.0;
+     * powerViewer.addCustomMesh(mesh, 'myOverlay');
+     */
     addCustomMesh(mesh, overlay = 'PowerViewerOverlay') {
         if (!this.impl.overlayScenes[overlay]) {
             this.impl.createOverlayScene(overlay);
@@ -175,6 +189,17 @@ class PowerViewer {
         this.impl.addOverlay(overlay, mesh);
     }
 
+    /**
+     * Removes custom {@link https://threejs.org/docs/#api/en/objects/Mesh|Mesh} from
+     * *overlay* scene of given name. An overlay scene is always rendered *after*
+     * the main scene with the Forge Viewer model.
+     * @param {THREE.Mesh} mesh {@link https://threejs.org/docs/#api/en/objects/Mesh|Mesh} to be removed.
+     * @param {string} [overlay='PowerViewerOverlay'] Name of the overlay scene.
+     * 
+     * @example
+     * // after adding a mesh using addCustomMesh
+     * powerViewer.removeCustomMesh(mesh, 'myOverlay');
+     */
     removeCustomMesh(mesh, overlay = 'PowerViewerOverlay') {
         if (!this.impl.overlayScenes[overlay]) {
             this.impl.createOverlayScene(overlay);
