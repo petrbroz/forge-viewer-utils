@@ -4,7 +4,7 @@
   "description": "Wrapper library for Autodesk Forge Viewer providing additional utility functions and documentation.",
   "main": "src/PowerViewer.js",
   "scripts": {
-    "build:docs": "jsdoc --configure .jsdoc.json --verbose; mv docs/forge-power-viewer/$npm_package_version docs/; rm -rf docs/master docs/forge-power-viewer; cp -R docs/$npm_package_version docs/master"
+    "build:docs": "rm -rf docs/$npm_package_version; jsdoc --configure .jsdoc.json --verbose; mv docs/forge-power-viewer/$npm_package_version docs/; rm -rf docs/master docs/forge-power-viewer; cp src/PowerViewer.js docs/$npm_package_version; cp -R docs/$npm_package_version docs/master"
   },
   "keywords": [
     "autodesk",

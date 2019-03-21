@@ -22,13 +22,13 @@ The goal of this wrapper library is to:
 Drop the library in your webpage. You can either use the latest `master` version:
 
 ```html
-<script src="https://raw.githubusercontent.com/petrbroz/forge-power-viewer/master/src/PowerViewer.js"></script>
+<script src="ttps://petrbroz.github.io/forge-power-viewer/master/PowerViewer.js"></script>
 ```
 
 Or a specific tagged version, for example `v0.1.0`:
 
 ```html
-<script src="https://raw.githubusercontent.com/petrbroz/forge-power-viewer/v0.1.0/src/PowerViewer.js"></script>
+<script src="https://petrbroz.github.io/forge-power-viewer/0.1.0/PowerViewer.js"></script>
 ```
 
 > Similarly, the documentation is available both for the latest [master](https://petrbroz.github.io/forge-power-viewer/master/index.html)
