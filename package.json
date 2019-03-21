@@ -1,6 +1,6 @@
 {
   "name": "forge-power-viewer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Wrapper library for Autodesk Forge Viewer providing additional utility functions and documentation.",
   "main": "src/PowerViewer.js",
   "scripts": {
