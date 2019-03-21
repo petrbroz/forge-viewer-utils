@@ -1,10 +1,10 @@
 {
   "name": "forge-power-viewer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Wrapper library for Autodesk Forge Viewer providing additional utility functions and documentation.",
   "main": "src/PowerViewer.js",
   "scripts": {
-    "build:docs": "jsdoc --configure .jsdoc.json --verbose"
+    "build:docs": "jsdoc --configure .jsdoc.json --verbose; mv docs/forge-power-viewer/$npm_package_version docs/; rm -rf docs/master docs/forge-power-viewer; cp -R docs/$npm_package_version docs/master"
   },
   "keywords": [
     "autodesk",
