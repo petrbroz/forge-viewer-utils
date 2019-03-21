@@ -93,6 +93,12 @@ class PowerViewer {
      * @param {string|number} [viewableId=0] Optional GUID (string) or index (number) of the viewable within the document.
      * @returns {Promise<Viewable>} Promise that will be either resolved with {@link Viewable} structure,
      * or rejected with an error message.
+     *
+     * @example
+     * async function loadDocument(urn) {
+     *   const viewable = await powerViewer.load(urn);
+     *   console.log('Loaded viewable', viewable.data.id);
+     * }
      */
     load(documentUrn, viewableId = 0) {
         const viewer = this.viewer;
@@ -144,6 +150,17 @@ class PowerViewer {
      * @param {number} x X-coordinate, i.e., horizontal distance (in pixels) from the left border of the canvas.
      * @param {number} y Y-coordinate, i.e., vertical distance (in pixels) from the top border of the canvas.
      * @returns {Intersection[]} List of intersections.
+     * 
+     * @example
+     * document.getElementById('viewer').addEventListener('click', function(ev) {
+     *   const bounds = ev.target.getBoundingClientRect();
+     *   const intersections = powerViewer.rayCast(ev.clientX - bounds.left, ev.clientY - bounds.top);
+     *   if (intersections.length > 0) {
+     *     console.log('hit', intersection[0]);
+     *   } else {
+     *     console.log('miss');
+     *   }
+     * });
      */
     rayCast(x, y) {
         let intersections = [];
