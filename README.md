@@ -22,7 +22,7 @@ The goal of this wrapper library is to:
 Drop the library in your webpage. You can either use the latest `master` version:
 
 ```html
-<script src="ttps://petrbroz.github.io/forge-power-viewer/master/PowerViewer.js"></script>
+<script src="https://petrbroz.github.io/forge-power-viewer/master/PowerViewer.js"></script>
 ```
 
 Or a specific tagged version, for example `v0.1.0`:
