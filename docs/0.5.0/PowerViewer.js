@@ -1,119 +1,4 @@
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>
-      PowerViewer.js - Documentation
-  </title>
-
-  <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
-  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-  
-  <link type="text/css" rel="stylesheet" href="styles/collapse.css">
-  
-
-  
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
-  
-
-  <!-- start Mixpanel -->
-  <script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
-  0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-  for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
-  mixpanel.init("1919205b2da72e4da3b9b6639b444d59");</script>
-  <!-- end Mixpanel -->
-</head>
-
-<body>
-  <svg style="display: none;">
-    <defs>
-      <symbol id="linkIcon" fill="#706d77" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 0h24v24H0z" fill="none"/>
-          <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
-      </symbol>
-    </defs>
-  </svg>
-
-  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-  <label for="nav-trigger" class="navicon-button x">
-    <div class="navicon"></div>
-  </label>
-
-  <label for="nav-trigger" class="overlay"></label>
-
-  <div class="top-nav-wrapper">
-    <ul>
-      <li >
-        <a href="index.html">
-          
-            <svg fill="#6D6D6D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-              <path d="M0 0h24v24H0z" fill="none"/>
-            </svg>
-          
-          
-        </a>
-      </li>
-
-      
-      <li>
-        <div class="search-wrapper">
-          <svg fill="#6D6D6D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-            <path d="M0 0h24v24H0z" fill="none"/>
-
-          </svg>
-          <input type="text" placeholder="Search" class="search-input">
-        </div>
-      </li>
-      
-
-    </ul>
-  </div>
-
-  <nav>
-    <h3 class="reference-title">
-      Autodesk Forge PowerViewer
-    </h3>
-
-    
-      <h3>
-        Resources
-      </h3>
-      
-        <a href="https://forge.autodesk.com">Autodesk Forge</a>
-      
-    
-
-    <h3>Classes</h3><ul><li id="PowerViewer-nav"><a href="PowerViewer.html">PowerViewer</a><ul class='methods'><li data-type="method" id="PowerViewer-Initialize-nav"><a href="PowerViewer.html#.Initialize">Initialize</a></li><li data-type="method" id="PowerViewer-addCustomMesh-nav"><a href="PowerViewer.html#addCustomMesh">addCustomMesh</a></li><li data-type="method" id="PowerViewer-load-nav"><a href="PowerViewer.html#load">load</a></li><li data-type="method" id="PowerViewer-rayCast-nav"><a href="PowerViewer.html#rayCast">rayCast</a></li><li data-type="method" id="PowerViewer-removeCustomMesh-nav"><a href="PowerViewer.html#removeCustomMesh">removeCustomMesh</a></li></ul></li></ul><h3 id="global-nav"><a href="global.html">Global</a></h3>
-  </nav>
-
-  <div id="main">
-    
-      <h1 class="page-title">
-        PowerViewer.js
-      </h1>
-    
-
-    
-      
-
-<section>
-  <article>
-    <pre class="prettyprint source linenums"><code>/**
+/**
  * Wrapper for {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d|Viewer3D}
  * with a collection of helpful methods that are not (yet) part of the official API.
  */
@@ -138,10 +23,10 @@ class PowerViewer {
      * @param {HTMLElement} container Target container for the viewer canvas.
      * @param {AccessTokenRequest} getAccessToken Function that will be called by the viewer
      * whenever a new access token is required.
-     * @returns {Promise&lt;PowerViewer>} Promise that will be either resolved with {@link PowerViewer} instance,
+     * @returns {Promise<PowerViewer>} Promise that will be either resolved with {@link PowerViewer} instance,
      * or rejected with an error message.
      * 
-     * @example &lt;caption>Using Promises&lt;/caption>
+     * @example <caption>Using Promises</caption>
      * function getAccessToken(callback) {
      *   fetch('/api/forge/auth/token')
      *     .then(resp => resp.json())
@@ -150,7 +35,7 @@ class PowerViewer {
      * PowerViewer.Initialize(document.getElementById('viewer'), getAccessToken)
      *   .then(powerViewer => console.log(powerViewer));
      * 
-     * @example &lt;caption>Using Async/Await&lt;/caption>
+     * @example <caption>Using Async/Await</caption>
      * async function getAccessToken(callback) {
      *   const resp = await fetch('/api/forge/auth/token');
      *   const json = await resp.json();
@@ -206,7 +91,7 @@ class PowerViewer {
      * Loads {@link Viewable} into the viewer.
      * @param {string} documentUrn Base64-encoded identifier of the document.
      * @param {string|number} [viewableId=0] Optional GUID (string) or index (number) of the viewable within the document.
-     * @returns {Promise&lt;Viewable>} Promise that will be either resolved with {@link Viewable} structure,
+     * @returns {Promise<Viewable>} Promise that will be either resolved with {@link Viewable} structure,
      * or rejected with an error message.
      *
      * @example
@@ -229,7 +114,7 @@ class PowerViewer {
                     }
                 } else {
                     const viewables = doc.getRoot().search({ type: 'geometry' });
-                    if (viewableId &lt; viewables.length) {
+                    if (viewableId < viewables.length) {
                         const viewable = viewables[viewableId];
                         viewer.loadDocumentNode(doc, viewable);
                         resolve(viewable);
@@ -322,39 +207,3 @@ class PowerViewer {
         this.impl.removeOverlay(overlay, mesh);
     }
 }
-</code></pre>
-  </article>
-</section>
-
-    
-
-
-  </div>
-
-  <br class="clear">
-
-  <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
-  </footer>
-
-  <script src="scripts/linenumber.js"></script>
-  <script src="scripts/pagelocation.js"></script>
-
-  
-  <script>
-    $(function () {
-      window.docsearch({
-        apiKey: '50f26ddfc7f2f8b57f05b7e306a852a1',
-        indexName: 'petrbroz_forge-power-viewer',
-        inputSelector: '.search-input',
-        debug: false, // Set debug to true if you want to inspect the dropdown
-        algoliaOptions: {
-          hitsPerPage: 10
-        }
-      });
-    });
-  </script>
-  
-
-</body>
-</html>

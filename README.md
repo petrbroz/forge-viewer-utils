@@ -34,7 +34,7 @@ Or a specific tagged version, for example `v0.1.0`:
 > Similarly, the documentation is available both for the latest [master](https://petrbroz.github.io/forge-power-viewer/master/index.html)
 > version and for all tagged versions, for example, [0.1.0](https://petrbroz.github.io/forge-power-viewer/0.1.0/index.html).
 
-Start usinig the `PowerViewer` class, either by wrapping an existing instance
+Start using the `PowerViewer` class, either by wrapping an existing instance
 of [Viewer3D](https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d):
 
 ```js
