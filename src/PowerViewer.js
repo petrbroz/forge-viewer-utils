@@ -273,4 +273,39 @@ class PowerViewer {
         function onError(err) { throw new Error(err); }
         this.viewer.getObjectTree(onSuccess, onError);
     }
+
+    /**
+     * Callback function used when enumerating scene fragments.
+     * @callback FragmentCallback
+     * @param {number} id Fragment ID.
+     */
+
+    /**
+     * Enumerates fragments of specific node or entire scene.
+     * @param {FragmentCallback} callback Function called for each fragment.
+     * @param {number?} [parent = undefined] ID of the parent node whose fragments
+     * should be enumerated. If undefined, the enumeration includes all scene fragments.
+     * @throws Exception when the fragments cannot be retrieved.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   try {
+     *     powerViewer.enumerateFragments(function(id) {
+     *       console.log('Found fragment', id);
+     *     });
+     *   } catch(err) {
+     *     console.error('Could not enumerate fragments', err);
+     *   }
+     * });
+     */
+    enumerateFragments(callback, parent = undefined) {
+        function onSuccess(tree) {
+            if (typeof parent === 'undefined') {
+                parent = tree.getRootId();
+            }
+            tree.enumNodeFragments(parent, callback, true);
+        }
+        function onError(err) { throw new Error(err); }
+        this.viewer.getObjectTree(onSuccess, onError);
+    }
 }
