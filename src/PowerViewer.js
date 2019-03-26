@@ -2,7 +2,7 @@
  * Wrapper for {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d|Viewer3D}
  * with a collection of helpful methods that are not (yet) part of the official API.
  */
-class PowerViewer {
+export class PowerViewer {
 
     /**
      * Callback function used to report access token to the viewer.

@@ -17,8 +17,10 @@
     "example": "examples"
   },
   "devDependencies": {
-    "express": "^4.16.4",
-    "jsdoc": "^3.5.5",
-    "jsdoc-template": "git+https://github.com/braintree/jsdoc-template.git"
+    "express": "^4.16.4"
+  },
+  "dependencies": {
+    "esdoc": "^1.1.0",
+    "esdoc-standard-plugin": "^1.0.0"
   }
 }
