@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Autodesk Forge Viewer Booster: Basic Example</title>
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.js"></script>
+    <script src="/PowerViewer.js"></script>
+    <style>
+        html, body { margin: 0; padding: 0; }
+        #viewer { width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+    <div id="viewer"></div>
+    <script>
+
+async function getAccessToken(callback) {
+    const resp = await fetch('/api/auth');
+    const json = await resp.json();
+    callback(json.access_token, json.expires_in);
+}
+
+async function run() {
+    try {
+        const powerViewer = await PowerViewer.Initialize(document.getElementById('viewer'), getAccessToken);
+        const viewable = await powerViewer.load(window.location.search.substr(1));
+        powerViewer.viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+            powerViewer.enumerateNodes(function(id) {
+                console.log('Found node', id);
+            });
+            powerViewer.enumerateLeafNodes(function(id) {
+                console.log('Found leaf node', id);
+            });
+        });
+    } catch(err) {
+        console.error(err);
+    }
+}
+
+run();
+    </script>
+</body>
+</html>

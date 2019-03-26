@@ -206,4 +206,71 @@ class PowerViewer {
         }
         this.impl.removeOverlay(overlay, mesh);
     }
+
+    /**
+     * Callback function used when enumerating scene nodes.
+     * @callback NodeCallback
+     * @param {number} id Node ID.
+     */
+
+    /**
+     * Enumerates all nodes in the viewer scene.
+     * @param {NodeCallback} callback Function called for each node.
+     * @param {number?} [parent = undefined] ID of the parent node whose children
+     * should be enumerated. If undefined, the enumeration includes all scene nodes.
+     * @throws Exception when the nodes cannot be retrieved.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   try {
+     *     powerViewer.enumerateNodes(function(id) {
+     *       console.log('Found node', id);
+     *     });
+     *   } catch(err) {
+     *     console.error('Could not enumerate nodes', err);
+     *   }
+     * });
+     */
+    enumerateNodes(callback, parent = undefined) {
+        function onSuccess(tree) {
+            if (typeof parent === 'undefined') {
+                parent = tree.getRootId();
+            }
+            tree.enumNodeChildren(parent, callback, true);
+        }
+        function onError(err) { throw new Error(err); }
+        this.viewer.getObjectTree(onSuccess, onError);
+    }
+
+    /**
+     * Enumerates leaf nodes in the viewer scene.
+     * @param {NodeCallback} callback Function called for each node.
+     * @param {number?} [parent = undefined] ID of the parent node whose children
+     * should be enumerated. If undefined, the enumeration includes all scene nodes.
+     * @throws Exception when the nodes cannot be retrieved.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   try {
+     *     powerViewer.enumerateLeafNodes(function(id) {
+     *       console.log('Found leaf node', id);
+     *     });
+     *   } catch(err) {
+     *     console.error('Could not enumerate nodes', err);
+     *   }
+     * });
+     */
+    enumerateLeafNodes(callback, parent = undefined) {
+        let tree = null;
+        function onNode(id) { if (tree.getChildCount(id) === 0) callback(id); }
+        function onSuccess(_tree) {
+            tree = _tree;
+            if (typeof parent === 'undefined') {
+                parent = tree.getRootId();
+            }
+            tree.enumNodeChildren(parent, onNode, true);
+        }
+        function onError(err) { throw new Error(err); }
+        this.viewer.getObjectTree(onSuccess, onError);
+    }
 }
