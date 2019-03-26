@@ -215,13 +215,14 @@ class PowerViewer {
 
     /**
      * Enumerates all nodes in the viewer scene.
+     * Can only be called after the object tree has been loaded.
      * @param {NodeCallback} callback Function called for each node.
      * @param {number?} [parent = undefined] ID of the parent node whose children
      * should be enumerated. If undefined, the enumeration includes all scene nodes.
-     * @throws Exception when the nodes cannot be retrieved.
+     * @throws Exception when the object tree is not yet available.
      *
      * @example
-     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
      *   try {
      *     powerViewer.enumerateNodes(function(id) {
      *       console.log('Found node', id);
@@ -244,13 +245,14 @@ class PowerViewer {
 
     /**
      * Enumerates leaf nodes in the viewer scene.
+     * Can only be called after the object tree has been loaded.
      * @param {NodeCallback} callback Function called for each node.
      * @param {number?} [parent = undefined] ID of the parent node whose children
      * should be enumerated. If undefined, the enumeration includes all scene nodes.
-     * @throws Exception when the nodes cannot be retrieved.
+     * @throws Exception when the object tree is not yet available.
      *
      * @example
-     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
      *   try {
      *     powerViewer.enumerateLeafNodes(function(id) {
      *       console.log('Found leaf node', id);
@@ -282,13 +284,14 @@ class PowerViewer {
 
     /**
      * Enumerates fragments of specific node or entire scene.
+     * Can only be called after the object tree has been loaded.
      * @param {FragmentCallback} callback Function called for each fragment.
      * @param {number?} [parent = undefined] ID of the parent node whose fragments
      * should be enumerated. If undefined, the enumeration includes all scene fragments.
-     * @throws Exception when the fragments cannot be retrieved.
+     * @throws Exception when the object tree is not yet available.
      *
      * @example
-     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
      *   try {
      *     powerViewer.enumerateFragments(function(id) {
      *       console.log('Found fragment', id);

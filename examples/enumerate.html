@@ -27,7 +27,7 @@ async function run() {
     try {
         const powerViewer = await PowerViewer.Initialize(document.getElementById('viewer'), getAccessToken);
         const viewable = await powerViewer.load(window.location.search.substr(1));
-        powerViewer.viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+        powerViewer.viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
             powerViewer.enumerateNodes(function(id) {
                 console.log('Found node', id);
             });
