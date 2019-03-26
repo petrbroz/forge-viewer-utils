@@ -311,4 +311,56 @@ class PowerViewer {
         function onError(err) { throw new Error(err); }
         this.viewer.getObjectTree(onSuccess, onError);
     }
+
+    /**
+     * Gets transformation matrix of scene fragment.
+     * @param {number} fragId Fragment ID.
+     * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
+     * @throws Exception when the fragments are not yet available.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   try {
+     *     const transform = powerViewer.getFragmentTransform(1);
+     *     console.log('Fragment transform', transform);
+     *   } catch(err) {
+     *     console.error('Could not retrieve fragment transform', err);
+     *   }
+     * });
+     */
+    getFragmentTransform(fragId) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        let transform = new THREE.Matrix4();
+        frags.getWorldMatrix(fragId, transform);
+        return transform;
+    }
+
+    /**
+     * Gets world bounding box of scene fragment.
+     * @param {number} fragId Fragment ID.
+     * @returns {THREE.Box3} Transformation {@link https://threejs.org/docs/#api/en/math/Box3|Box3}.
+     * @throws Exception when the fragments are not yet available.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   try {
+     *     const bounds = powerViewer.getFragmentBounds(1);
+     *     console.log('Fragment bounds', bounds);
+     *   } catch(err) {
+     *     console.error('Could not retrieve fragment bounds', err);
+     *   }
+     * });
+     */
+    getFragmentBounds(fragId) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        let bounds = new THREE.Box3();
+        frags.getWorldBounds(fragId, bounds);
+        return bounds;
+    }
 }
