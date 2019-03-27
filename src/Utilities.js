@@ -209,18 +209,22 @@ class Utilities {
     }
 
     /**
-     * Callback function used when enumerating scene nodes.
+     * Callback function used when enumerating scene objects.
      * @callback NodeCallback
-     * @param {number} id Node ID.
+     * @param {number} id Object ID.
      */
 
     /**
-     * Enumerates all nodes in the viewer scene.
-     * Can only be called after the object tree has been loaded.
-     * @param {NodeCallback} callback Function called for each node.
-     * @param {number?} [parent = undefined] ID of the parent node whose children
-     * should be enumerated. If undefined, the enumeration includes all scene nodes.
-     * @throws Exception when the object tree is not yet available.
+     * Enumerates IDs of objects in the scene.
+     *
+     * To make sure the method call is synchronous (i.e., it returns *after*
+     * all objects have been enumerated), always wait until the object tree
+     * has been loaded.
+     *
+     * @param {NodeCallback} callback Function called for each object.
+     * @param {number?} [parent = undefined] ID of the parent object whose children
+     * should be enumerated. If undefined, the enumeration includes all scene objects.
+     * @throws Exception if no {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/model|Model} is loaded.
      *
      * @example
      * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
@@ -246,11 +250,11 @@ class Utilities {
 
     /**
      * Lists IDs of objects in the scene.
-     * Should be called *after* the object tree has been loaded.
      * @param {number?} [parentId = undefined] ID of the parent object whose children
      * should be listed. If undefined, the list will include all scene object IDs.
      * @returns {Promise<number[]>} Promise that will be resolved with a list of IDs,
-     * or rejected with an error message.
+     * or rejected with an error message, for example, if there is no
+     * {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/model|Model}.
      *
      * @example <caption>Using async/await</caption>
      * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, async function() {
@@ -275,12 +279,16 @@ class Utilities {
     }
 
     /**
-     * Enumerates leaf nodes in the viewer scene.
-     * Can only be called after the object tree has been loaded.
-     * @param {NodeCallback} callback Function called for each node.
-     * @param {number?} [parent = undefined] ID of the parent node whose children
-     * should be enumerated. If undefined, the enumeration includes all scene nodes.
-     * @throws Exception when the object tree is not yet available.
+     * Enumerates IDs of leaf objects in the scene.
+     *
+     * To make sure the method call is synchronous (i.e., it returns *after*
+     * all objects have been enumerated), always wait until the object tree
+     * has been loaded.
+     *
+     * @param {NodeCallback} callback Function called for each object.
+     * @param {number?} [parent = undefined] ID of the parent object whose children
+     * should be enumerated. If undefined, the enumeration includes all leaf objects.
+     * @throws Exception if no {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/model|Model} is loaded.
      *
      * @example
      * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
@@ -309,11 +317,11 @@ class Utilities {
 
     /**
      * Lists IDs of leaf objects in the scene.
-     * Should be called *after* the object tree has been loaded.
      * @param {number?} [parentId = undefined] ID of the parent object whose children
      * should be listed. If undefined, the list will include all leaf object IDs.
      * @returns {Promise<number[]>} Promise that will be resolved with a list of IDs,
-     * or rejected with an error message.
+     * or rejected with an error message, for example, if there is no
+     * {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/model|Model}.
      *
      * @example <caption>Using async/await</caption>
      * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, async function() {
@@ -346,12 +354,16 @@ class Utilities {
      */
 
     /**
-     * Enumerates fragments of specific node or entire scene.
-     * Can only be called after the object tree has been loaded.
+     * Enumerates fragment IDs of specific object or entire scene.
+     *
+     * To make sure the method call is synchronous (i.e., it returns *after*
+     * all fragments have been enumerated), always wait until the object tree
+     * has been loaded.
+     *
      * @param {FragmentCallback} callback Function called for each fragment.
-     * @param {number?} [parent = undefined] ID of the parent node whose fragments
+     * @param {number?} [parent = undefined] ID of the parent object whose fragments
      * should be enumerated. If undefined, the enumeration includes all scene fragments.
-     * @throws Exception when the object tree is not yet available.
+     * @throws Exception if no {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/model|Model} is loaded.
      *
      * @example
      * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
@@ -381,7 +393,8 @@ class Utilities {
      * @param {number?} [parentId = undefined] ID of the parent object whose fragments
      * should be listed. If undefined, the list will include all fragment IDs.
      * @returns {Promise<number[]>} Promise that will be resolved with a list of IDs,
-     * or rejected with an error message.
+     * or rejected with an error message, for example, if there is no
+     * {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/model|Model}.
      *
      * @example <caption>Using async/await</caption>
      * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, async function() {
