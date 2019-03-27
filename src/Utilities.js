@@ -245,6 +245,36 @@ class Utilities {
     }
 
     /**
+     * Lists IDs of objects in the scene.
+     * Should be called *after* the object tree has been loaded.
+     * @param {number?} [parentId = undefined] ID of the parent object whose children
+     * should be listed. If undefined, the list will include all scene object IDs.
+     * @returns {Promise<number[]>} Promise that will be resolved with a list of IDs,
+     * or rejected with an error message.
+     *
+     * @example <caption>Using async/await</caption>
+     * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, async function() {
+     *   const ids = await utils.listNodes();
+     *   console.log('Object IDs', ids);
+     * });
+     */
+    listNodes(parentId = undefined) {
+        const viewer = this.viewer;
+        return new Promise(function(resolve, reject) {
+            function onSuccess(tree) {
+                if (typeof parentId === 'undefined') {
+                    parentId = tree.getRootId();
+                }
+                let ids = [];
+                tree.enumNodeChildren(parentId, function(id) { ids.push(id); }, true);
+                resolve(ids);
+            }
+            function onError(err) { reject(err); }
+            viewer.getObjectTree(onSuccess, onError);
+        });
+    }
+
+    /**
      * Enumerates leaf nodes in the viewer scene.
      * Can only be called after the object tree has been loaded.
      * @param {NodeCallback} callback Function called for each node.
@@ -275,6 +305,38 @@ class Utilities {
         }
         function onError(err) { throw new Error(err); }
         this.viewer.getObjectTree(onSuccess, onError);
+    }
+
+    /**
+     * Lists IDs of leaf objects in the scene.
+     * Should be called *after* the object tree has been loaded.
+     * @param {number?} [parentId = undefined] ID of the parent object whose children
+     * should be listed. If undefined, the list will include all leaf object IDs.
+     * @returns {Promise<number[]>} Promise that will be resolved with a list of IDs,
+     * or rejected with an error message.
+     *
+     * @example <caption>Using async/await</caption>
+     * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, async function() {
+     *   const ids = await utils.listLeafNodes();
+     *   console.log('Leaf object IDs', ids);
+     * });
+     */
+    listLeafNodes(parentId = undefined) {
+        const viewer = this.viewer;
+        return new Promise(function(resolve, reject) {
+            let tree = null;
+            let ids = [];
+            function onSuccess(_tree) {
+                tree = _tree;
+                if (typeof parentId === 'undefined') {
+                    parentId = tree.getRootId();
+                }
+                tree.enumNodeChildren(parentId, function(id) { if (tree.getChildCount(id) === 0) ids.push(id); }, true);
+                resolve(ids);
+            }
+            function onError(err) { reject(err); }
+            viewer.getObjectTree(onSuccess, onError);
+        });
     }
 
     /**
@@ -311,6 +373,36 @@ class Utilities {
         }
         function onError(err) { throw new Error(err); }
         this.viewer.getObjectTree(onSuccess, onError);
+    }
+
+    /**
+     * Lists fragments IDs of specific scene object.
+     * Should be called *after* the object tree has been loaded.
+     * @param {number?} [parentId = undefined] ID of the parent object whose fragments
+     * should be listed. If undefined, the list will include all fragment IDs.
+     * @returns {Promise<number[]>} Promise that will be resolved with a list of IDs,
+     * or rejected with an error message.
+     *
+     * @example <caption>Using async/await</caption>
+     * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, async function() {
+     *   const ids = await utils.listFragments();
+     *   console.log('Fragment IDs', ids);
+     * });
+     */
+    listFragments(parentId = undefined) {
+        const viewer = this.viewer;
+        return new Promise(function(resolve, reject) {
+            function onSuccess(tree) {
+                if (typeof parentId === 'undefined') {
+                    parentId = tree.getRootId();
+                }
+                let ids = [];
+                tree.enumNodeFragments(parentId, function(id) { ids.push(id); }, true);
+                resolve(ids);
+            }
+            function onError(err) { reject(err); }
+            viewer.getObjectTree(onSuccess, onError);
+        });
     }
 
     /**
