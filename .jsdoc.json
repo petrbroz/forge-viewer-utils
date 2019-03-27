@@ -12,7 +12,7 @@
         "plugins/markdown"
     ],
     "templates": {
-        "referenceTitle": "Autodesk Forge PowerViewer",
+        "referenceTitle": "Autodesk Forge Viewer Utilities",
         "disableSort": false,
         "collapse": true,
         "resources": {

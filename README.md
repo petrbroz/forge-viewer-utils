@@ -1,4 +1,4 @@
-# Forge Power Viewer
+# Forge Viewer Utils
 
 Collection of helpful tools for [Autodesk Forge Viewer](https://forge.autodesk.com/en/docs/viewer)
 that are not (yet) part of its official [API](https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d).
@@ -22,27 +22,27 @@ The goal of this wrapper library is to:
 Drop the library in your webpage. You can either use the latest `master` version:
 
 ```html
-<script src="https://petrbroz.github.io/forge-power-viewer/master/PowerViewer.js"></script>
+<script src="https://petrbroz.github.io/forge-viewer-utils/master/Utilities.js"></script>
 ```
 
-Or a specific tagged version, for example `v0.1.0`:
+Or a specific tagged version, for example `v0.6.0`:
 
 ```html
-<script src="https://petrbroz.github.io/forge-power-viewer/0.1.0/PowerViewer.js"></script>
+<script src="https://petrbroz.github.io/forge-viewer-utils/0.6.0/Utilities.js"></script>
 ```
 
-> Similarly, the documentation is available both for the latest [master](https://petrbroz.github.io/forge-power-viewer/master/index.html)
-> version and for all tagged versions, for example, [0.1.0](https://petrbroz.github.io/forge-power-viewer/0.1.0/index.html).
+> Similarly, the documentation is available both for the latest [master](https://petrbroz.github.io/forge-viewer-utils/master/index.html)
+> version and for all tagged versions, for example, [0.6.0](https://petrbroz.github.io/forge-viewer-utils/0.6.0/index.html).
 
-Start using the `PowerViewer` class, either by wrapping an existing instance
+Start using the `Autodesk.Viewing.Utilities` class, either by wrapping an existing instance
 of [Viewer3D](https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d):
 
 ```js
-const powerViewer = new PowerViewer(viewer3d);
-powerViewer.load("your-urn");
+const utils = new Autodesk.Viewing.Utilities(viewer3d);
+utils.load("your-urn");
 ```
 
-Or by initializing everything using the static method `PowerViewer.Initialize`:
+Or by initializing everything using the static method `Autodesk.Viewing.Utilities.Initialize`:
 
 ```html
 <div id="viewer"></div>
@@ -54,8 +54,8 @@ Or by initializing everything using the static method `PowerViewer.Initialize`:
   }
   async function run() {
       try {
-          const powerViewer = await PowerViewer.Initialize(document.getElementById('viewer'), getAccessToken);
-          const viewable = await powerViewer.load("your-urn");
+          const utils = await Autodesk.Viewing.Utilities.Initialize(document.getElementById('viewer'), getAccessToken);
+          const viewable = await utils.load("your-urn");
           console.log('Viewable loaded successfully', viewable);
       } catch(err) {
           console.error(err);

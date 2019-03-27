@@ -1,8 +1,9 @@
 /**
  * Wrapper for {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d|Viewer3D}
  * with a collection of helpful methods that are not (yet) part of the official API.
+ * @namespace Autodesk.Viewing
  */
-class PowerViewer {
+class Utilities {
 
     /**
      * Callback function used to report access token to the viewer.
@@ -18,12 +19,12 @@ class PowerViewer {
      */
 
     /**
-     * Initializes new instance of {@link PowerViewer}, including the initialization
+     * Initializes new instance of {@link Utilities}, including the initialization
      * of the underlying {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d|Viewer3D}.
      * @param {HTMLElement} container Target container for the viewer canvas.
      * @param {AccessTokenRequest} getAccessToken Function that will be called by the viewer
      * whenever a new access token is required.
-     * @returns {Promise<PowerViewer>} Promise that will be either resolved with {@link PowerViewer} instance,
+     * @returns {Promise<Utilities>} Promise that will be either resolved with {@link Utilities} instance,
      * or rejected with an error message.
      * 
      * @example <caption>Using Promises</caption>
@@ -32,8 +33,8 @@ class PowerViewer {
      *     .then(resp => resp.json())
      *     .then(json => callback(json.access_token, json.expires_in));
      * }
-     * PowerViewer.Initialize(document.getElementById('viewer'), getAccessToken)
-     *   .then(powerViewer => console.log(powerViewer));
+     * Autodesk.Viewing.Utilities.Initialize(document.getElementById('viewer'), getAccessToken)
+     *   .then(utils => console.log(utils));
      * 
      * @example <caption>Using Async/Await</caption>
      * async function getAccessToken(callback) {
@@ -42,8 +43,8 @@ class PowerViewer {
      *   callback(json.access_token, json.expires_in);
      * }
      * async function init() {
-     *   const powerViewer = await PowerViewer.Initialize(document.getElementById('viewer'), getAccessToken);
-     *   console.log(powerViewer);
+     *   const utils = await Autodesk.Viewing.Utilities.Initialize(document.getElementById('viewer'), getAccessToken);
+     *   console.log(utils);
      * }
      * init();
      */
@@ -55,13 +56,13 @@ class PowerViewer {
             Autodesk.Viewing.Initializer(options, function() {
                 const viewer = new Autodesk.Viewing.Private.GuiViewer3D(container);
                 viewer.start();
-                resolve(new PowerViewer(viewer));
+                resolve(new Autodesk.Viewing.Utilities(viewer));
             });
         });
     }
 
     /**
-     * Initializes {@link PowerViewer} with existing instance
+     * Initializes {@link Utilities} with existing instance
      * of {@link https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d|Viewer3D}.
      * @param {Viewer3D} viewer Forge viewer.
      */
@@ -96,7 +97,7 @@ class PowerViewer {
      *
      * @example
      * async function loadDocument(urn) {
-     *   const viewable = await powerViewer.load(urn);
+     *   const viewable = await utils.load(urn);
      *   console.log('Loaded viewable', viewable.data.id);
      * }
      */
@@ -154,7 +155,7 @@ class PowerViewer {
      * @example
      * document.getElementById('viewer').addEventListener('click', function(ev) {
      *   const bounds = ev.target.getBoundingClientRect();
-     *   const intersections = powerViewer.rayCast(ev.clientX - bounds.left, ev.clientY - bounds.top);
+     *   const intersections = utils.rayCast(ev.clientX - bounds.left, ev.clientY - bounds.top);
      *   if (intersections.length > 0) {
      *     console.log('hit', intersections[0]);
      *   } else {
@@ -173,16 +174,16 @@ class PowerViewer {
      * *overlay* scene of given name. An overlay scene is always rendered *after*
      * the main scene with the Forge Viewer model.
      * @param {THREE.Mesh} mesh Custom {@link https://threejs.org/docs/#api/en/objects/Mesh|Mesh}.
-     * @param {string} [overlay='PowerViewerOverlay'] Name of the overlay scene.
+     * @param {string} [overlay='UtilitiesOverlay'] Name of the overlay scene.
      *
      * @example
      * const geometry = new THREE.SphereGeometry(10, 8, 8);
      * const material = new THREE.MeshBasicMaterial({ color: 0x336699 });
      * const mesh = new THREE.Mesh(geometry, material);
      * mesh.position.x = 1.0; mesh.position.y = 2.0; mesh.position.z = 3.0;
-     * powerViewer.addCustomMesh(mesh, 'myOverlay');
+     * utils.addCustomMesh(mesh, 'myOverlay');
      */
-    addCustomMesh(mesh, overlay = 'PowerViewerOverlay') {
+    addCustomMesh(mesh, overlay = 'UtilitiesOverlay') {
         if (!this.impl.overlayScenes[overlay]) {
             this.impl.createOverlayScene(overlay);
         }
@@ -194,16 +195,177 @@ class PowerViewer {
      * *overlay* scene of given name. An overlay scene is always rendered *after*
      * the main scene with the Forge Viewer model.
      * @param {THREE.Mesh} mesh {@link https://threejs.org/docs/#api/en/objects/Mesh|Mesh} to be removed.
-     * @param {string} [overlay='PowerViewerOverlay'] Name of the overlay scene.
+     * @param {string} [overlay='UtilitiesOverlay'] Name of the overlay scene.
      * 
      * @example
      * // after adding a mesh using addCustomMesh
-     * powerViewer.removeCustomMesh(mesh, 'myOverlay');
+     * utils.removeCustomMesh(mesh, 'myOverlay');
      */
-    removeCustomMesh(mesh, overlay = 'PowerViewerOverlay') {
+    removeCustomMesh(mesh, overlay = 'UtilitiesOverlay') {
         if (!this.impl.overlayScenes[overlay]) {
             this.impl.createOverlayScene(overlay);
         }
         this.impl.removeOverlay(overlay, mesh);
     }
+
+    /**
+     * Callback function used when enumerating scene nodes.
+     * @callback NodeCallback
+     * @param {number} id Node ID.
+     */
+
+    /**
+     * Enumerates all nodes in the viewer scene.
+     * Can only be called after the object tree has been loaded.
+     * @param {NodeCallback} callback Function called for each node.
+     * @param {number?} [parent = undefined] ID of the parent node whose children
+     * should be enumerated. If undefined, the enumeration includes all scene nodes.
+     * @throws Exception when the object tree is not yet available.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
+     *   try {
+     *     utils.enumerateNodes(function(id) {
+     *       console.log('Found node', id);
+     *     });
+     *   } catch(err) {
+     *     console.error('Could not enumerate nodes', err);
+     *   }
+     * });
+     */
+    enumerateNodes(callback, parent = undefined) {
+        function onSuccess(tree) {
+            if (typeof parent === 'undefined') {
+                parent = tree.getRootId();
+            }
+            tree.enumNodeChildren(parent, callback, true);
+        }
+        function onError(err) { throw new Error(err); }
+        this.viewer.getObjectTree(onSuccess, onError);
+    }
+
+    /**
+     * Enumerates leaf nodes in the viewer scene.
+     * Can only be called after the object tree has been loaded.
+     * @param {NodeCallback} callback Function called for each node.
+     * @param {number?} [parent = undefined] ID of the parent node whose children
+     * should be enumerated. If undefined, the enumeration includes all scene nodes.
+     * @throws Exception when the object tree is not yet available.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
+     *   try {
+     *     utils.enumerateLeafNodes(function(id) {
+     *       console.log('Found leaf node', id);
+     *     });
+     *   } catch(err) {
+     *     console.error('Could not enumerate nodes', err);
+     *   }
+     * });
+     */
+    enumerateLeafNodes(callback, parent = undefined) {
+        let tree = null;
+        function onNode(id) { if (tree.getChildCount(id) === 0) callback(id); }
+        function onSuccess(_tree) {
+            tree = _tree;
+            if (typeof parent === 'undefined') {
+                parent = tree.getRootId();
+            }
+            tree.enumNodeChildren(parent, onNode, true);
+        }
+        function onError(err) { throw new Error(err); }
+        this.viewer.getObjectTree(onSuccess, onError);
+    }
+
+    /**
+     * Callback function used when enumerating scene fragments.
+     * @callback FragmentCallback
+     * @param {number} id Fragment ID.
+     */
+
+    /**
+     * Enumerates fragments of specific node or entire scene.
+     * Can only be called after the object tree has been loaded.
+     * @param {FragmentCallback} callback Function called for each fragment.
+     * @param {number?} [parent = undefined] ID of the parent node whose fragments
+     * should be enumerated. If undefined, the enumeration includes all scene fragments.
+     * @throws Exception when the object tree is not yet available.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, function() {
+     *   try {
+     *     utils.enumerateFragments(function(id) {
+     *       console.log('Found fragment', id);
+     *     });
+     *   } catch(err) {
+     *     console.error('Could not enumerate fragments', err);
+     *   }
+     * });
+     */
+    enumerateFragments(callback, parent = undefined) {
+        function onSuccess(tree) {
+            if (typeof parent === 'undefined') {
+                parent = tree.getRootId();
+            }
+            tree.enumNodeFragments(parent, callback, true);
+        }
+        function onError(err) { throw new Error(err); }
+        this.viewer.getObjectTree(onSuccess, onError);
+    }
+
+    /**
+     * Gets transformation matrix of scene fragment.
+     * @param {number} fragId Fragment ID.
+     * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
+     * @throws Exception when the fragments are not yet available.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   try {
+     *     const transform = utils.getFragmentTransform(1);
+     *     console.log('Fragment transform', transform);
+     *   } catch(err) {
+     *     console.error('Could not retrieve fragment transform', err);
+     *   }
+     * });
+     */
+    getFragmentTransform(fragId) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        let transform = new THREE.Matrix4();
+        frags.getWorldMatrix(fragId, transform);
+        return transform;
+    }
+
+    /**
+     * Gets world bounding box of scene fragment.
+     * @param {number} fragId Fragment ID.
+     * @returns {THREE.Box3} Transformation {@link https://threejs.org/docs/#api/en/math/Box3|Box3}.
+     * @throws Exception when the fragments are not yet available.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   try {
+     *     const bounds = utils.getFragmentBounds(1);
+     *     console.log('Fragment bounds', bounds);
+     *   } catch(err) {
+     *     console.error('Could not retrieve fragment bounds', err);
+     *   }
+     * });
+     */
+    getFragmentBounds(fragId) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        let bounds = new THREE.Box3();
+        frags.getWorldBounds(fragId, bounds);
+        return bounds;
+    }
 }
+
+Autodesk = Autodesk || {};
+Autodesk.Viewing = Autodesk.Viewing || {};
+Autodesk.Viewing.Utilities = Utilities;
