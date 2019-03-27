@@ -1,6 +1,6 @@
 {
   "name": "forge-viewer-utils",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Wrapper library for Autodesk Forge Viewer providing additional utility functions and documentation.",
   "main": "src/Utilities.js",
   "scripts": {
