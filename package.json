@@ -1,15 +1,16 @@
 {
-  "name": "forge-power-viewer",
-  "version": "0.6.0",
+  "name": "forge-viewer-utils",
+  "version": "0.7.0",
   "description": "Wrapper library for Autodesk Forge Viewer providing additional utility functions and documentation.",
-  "main": "src/PowerViewer.js",
+  "main": "src/Utilities.js",
   "scripts": {
-    "build:docs": "rm -rf docs/$npm_package_version; jsdoc --configure .jsdoc.json --verbose; mv docs/forge-power-viewer/$npm_package_version docs/; rm -rf docs/master docs/forge-power-viewer; cp src/PowerViewer.js docs/$npm_package_version; cp -R docs/$npm_package_version docs/master"
+    "build:docs": "rm -rf docs/$npm_package_version; jsdoc --configure .jsdoc.json --verbose; mv docs/forge-viewer-utils/$npm_package_version docs/; rm -rf docs/master docs/forge-viewer-utils; cp src/Utilities.js docs/$npm_package_version; cp -R docs/$npm_package_version docs/master"
   },
   "keywords": [
     "autodesk",
     "forge",
-    "viewer"
+    "viewer",
+    "utilities"
   ],
   "author": "Petr Broz <petr.broz@autodesk.com>",
   "license": "MIT",

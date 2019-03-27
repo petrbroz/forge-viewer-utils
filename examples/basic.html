@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Autodesk Forge Viewer Booster: Basic Example</title>
+    <title>Autodesk Forge Viewer Utilities: Basic Example</title>
     <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.css">
     <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.js"></script>
-    <script src="/PowerViewer.js"></script>
+    <script src="/Utilities.js"></script>
     <style>
         html, body { margin: 0; padding: 0; }
         #viewer { width: 100%; height: 100%; }
@@ -25,8 +25,8 @@ async function getAccessToken(callback) {
 
 async function run() {
     try {
-        const powerViewer = await PowerViewer.Initialize(document.getElementById('viewer'), getAccessToken);
-        const viewable = await powerViewer.load(window.location.search.substr(1));
+        const utils = await Autodesk.Viewing.Utilities.Initialize(document.getElementById('viewer'), getAccessToken);
+        const viewable = await utils.load(window.location.search.substr(1));
         console.log('Viewable loaded successfully', viewable);
     } catch(err) {
         console.error(err);
