@@ -25,14 +25,14 @@ Drop the library in your webpage. You can either use the latest `master` version
 <script src="https://petrbroz.github.io/forge-viewer-utils/master/Utilities.js"></script>
 ```
 
-Or a specific tagged version, for example `v0.6.0`:
+Or a specific tagged version, for example `v0.7.0`:
 
 ```html
-<script src="https://petrbroz.github.io/forge-viewer-utils/0.6.0/Utilities.js"></script>
+<script src="https://petrbroz.github.io/forge-viewer-utils/0.7.0/Utilities.js"></script>
 ```
 
 > Similarly, the documentation is available both for the latest [master](https://petrbroz.github.io/forge-viewer-utils/master/index.html)
-> version and for all tagged versions, for example, [0.6.0](https://petrbroz.github.io/forge-viewer-utils/0.6.0/index.html).
+> version and for all tagged versions, for example, [0.7.0](https://petrbroz.github.io/forge-viewer-utils/0.7.0/index.html).
 
 Start using the `Autodesk.Viewing.Utilities` class, either by wrapping an existing instance
 of [Viewer3D](https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d):
