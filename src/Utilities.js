@@ -421,6 +421,9 @@ class Utilities {
     /**
      * Gets world bounding box of scene fragment.
      * @param {number} fragId Fragment ID.
+     * @param {THREE.Box3} [bounds] {@link https://threejs.org/docs/#api/en/math/Box3|Box3}
+     * to be populated with bounding box values and returned
+     * (in case you want to avoid creating a new instance for performance reasons).
      * @returns {THREE.Box3} Transformation {@link https://threejs.org/docs/#api/en/math/Box3|Box3}.
      * @throws Exception when the fragments are not yet available.
      *
@@ -434,12 +437,12 @@ class Utilities {
      *   }
      * });
      */
-    getFragmentBounds(fragId) {
+    getFragmentBounds(fragId, bounds = null) {
         if (!this.viewer.model) {
             throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
         }
         const frags = this.viewer.model.getFragmentList();
-        let bounds = new THREE.Box3();
+        bounds = bounds || new THREE.Box3();
         frags.getWorldBounds(fragId, bounds);
         return bounds;
     }
@@ -449,6 +452,8 @@ class Utilities {
      * the transformation that was loaded from the Forge model.
      *
      * @param {number} fragId Fragment ID.
+     * @param {THREE.Matrix4} [transform] Matrix to be populated with transform values and returned
+     * (in case you want to avoid creating a new instance for performance reasons).
      * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
      * @throws Exception when the fragments are not yet available.
      *
@@ -459,12 +464,12 @@ class Utilities {
      *     console.log('Original fragment transform', transform);
      * });
      */
-    getFragmentOrigTransform(fragId) {
+    getFragmentOrigTransform(fragId, transform = null) {
         if (!this.viewer.model) {
             throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
         }
         const frags = this.viewer.model.getFragmentList();
-        let transform = new THREE.Matrix4();
+        transform = transform || new THREE.Matrix4();
         frags.getOriginalWorldMatrix(fragId, transform);
         return transform;
     }
@@ -523,7 +528,7 @@ class Utilities {
      *   utils.setFragmentAuxTransform(fragId, scale, null, position);
      * });
      */
-    setFragmentAuxTransform(fragId, scale, rotation, position) {
+    setFragmentAuxTransform(fragId, scale = null, rotation = null, position = null) {
         if (!this.viewer.model) {
             throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
         }
@@ -537,6 +542,8 @@ class Utilities {
      * the _auxiliar_ transforms.
      *
      * @param {number} fragId Fragment ID.
+     * @param {THREE.Matrix4} [transform] Matrix to be populated with transform values and returned
+     * (in case you want to avoid creating a new instance for performance reasons).
      * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
      * @throws Exception when the fragments are not yet available.
      *
@@ -550,12 +557,12 @@ class Utilities {
      *   }
      * });
      */
-    getFragmentTransform(fragId) {
+    getFragmentTransform(fragId, transform = null) {
         if (!this.viewer.model) {
             throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
         }
         const frags = this.viewer.model.getFragmentList();
-        let transform = new THREE.Matrix4();
+        transform = transform || new THREE.Matrix4();
         frags.getWorldMatrix(fragId, transform);
         return transform;
     }
