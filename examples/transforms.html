@@ -35,7 +35,7 @@ async function run() {
             scale.x = scale.y = scale.z = 1.1 + 0.1 * Math.sin(0.001 * Date.now());
             for (const dbId of dbIds) {
                 utils.enumerateFragments(function (fragId) {
-                    utils.setFragmentAuxiliaryTransform(fragId, scale, null, null);
+                    utils.setFragmentAuxTransform(fragId, scale, null, null);
                 }, dbId);
             }
             utils.refresh();

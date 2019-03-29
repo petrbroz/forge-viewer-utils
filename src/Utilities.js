@@ -419,32 +419,6 @@ class Utilities {
     }
 
     /**
-     * Gets transformation matrix of scene fragment.
-     * @param {number} fragId Fragment ID.
-     * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
-     * @throws Exception when the fragments are not yet available.
-     *
-     * @example
-     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
-     *   try {
-     *     const transform = utils.getFragmentTransform(1);
-     *     console.log('Fragment transform', transform);
-     *   } catch(err) {
-     *     console.error('Could not retrieve fragment transform', err);
-     *   }
-     * });
-     */
-    getFragmentTransform(fragId) {
-        if (!this.viewer.model) {
-            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
-        }
-        const frags = this.viewer.model.getFragmentList();
-        let transform = new THREE.Matrix4();
-        frags.getWorldMatrix(fragId, transform);
-        return transform;
-    }
-
-    /**
      * Gets world bounding box of scene fragment.
      * @param {number} fragId Fragment ID.
      * @returns {THREE.Box3} Transformation {@link https://threejs.org/docs/#api/en/math/Box3|Box3}.
@@ -471,9 +445,35 @@ class Utilities {
     }
 
     /**
-     * Gets auxiliary transform of a scene fragment.
+     * Gets _original_ transformation matrix of scene fragment, i.e.,
+     * the transformation that was loaded from the Forge model.
      *
-     * Note: auxiliary transforms are used by different features of the viewer,
+     * @param {number} fragId Fragment ID.
+     * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
+     * @throws Exception when the fragments are not yet available.
+     *
+     * @example
+     * const fragId = 123;
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *     const transform = utils.getFragmentOrigTransform(fragId);
+     *     console.log('Original fragment transform', transform);
+     * });
+     */
+    getFragmentOrigTransform(fragId) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        let transform = new THREE.Matrix4();
+        frags.getOriginalWorldMatrix(fragId, transform);
+        return transform;
+    }
+
+    /**
+     * Gets _auxiliary_ transform of a scene fragment.
+     *
+     * Note: auxiliary transforms are applied "on top" of the original
+     * transforms, and are used by different features of the viewer,
      * for example, by animations or the explode tool.
      *
      * @param {number} fragId Fragment ID.
@@ -488,13 +488,13 @@ class Utilities {
      * let rotation = new THREE.Quaternion(0, 0, 0, 1);
      * let position = new THREE.Vector3(0, 0, 0);
      * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
-     *   utils.getFragmentAuxiliaryTransform(fragId, scale, rotation, position);
+     *   utils.getFragmentAuxTransform(fragId, scale, rotation, position);
      *   console.log('Scale', scale);
      *   console.log('Rotation', rotation);
      *   console.log('Position', position);
      * });
      */
-    getFragmentAuxiliaryTransform(fragId, scale, rotation, position) {
+    getFragmentAuxTransform(fragId, scale, rotation, position) {
         if (!this.viewer.model) {
             throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
         }
@@ -503,9 +503,10 @@ class Utilities {
     }
 
     /**
-     * Updates auxiliary transform of a scene fragment.
+     * Sets _auxiliary_ transform of a scene fragment.
      *
-     * Note: auxiliary transforms are used by different features of the viewer,
+     * Note: auxiliary transforms are applied "on top" of the original
+     * transforms, and are used by different features of the viewer,
      * for example, by animations or the explode tool.
      *
      * @param {number} fragId Fragment ID.
@@ -519,15 +520,44 @@ class Utilities {
      * const scale = new THREE.Vector3(2.0, 3.0, 4.0);
      * const position = new THREE.Vector3(5.0, 6.0, 7.0);
      * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
-     *   utils.setFragmentAuxiliaryTransform(fragId, scale, null, position);
+     *   utils.setFragmentAuxTransform(fragId, scale, null, position);
      * });
      */
-    setFragmentAuxiliaryTransform(fragId, scale, rotation, position) {
+    setFragmentAuxTransform(fragId, scale, rotation, position) {
         if (!this.viewer.model) {
             throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
         }
         const frags = this.viewer.model.getFragmentList();
         frags.updateAnimTransform(fragId, scale, rotation, position);
+    }
+
+    /**
+     * Gets _final_ transformation matrix of scene fragment, i.e.,
+     * the transformation obtained by combining the _original_ and
+     * the _auxiliar_ transforms.
+     *
+     * @param {number} fragId Fragment ID.
+     * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
+     * @throws Exception when the fragments are not yet available.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   try {
+     *     const transform = utils.getFragmentTransform(1);
+     *     console.log('Final fragment transform', transform);
+     *   } catch(err) {
+     *     console.error('Could not retrieve fragment transform', err);
+     *   }
+     * });
+     */
+    getFragmentTransform(fragId) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        let transform = new THREE.Matrix4();
+        frags.getWorldMatrix(fragId, transform);
+        return transform;
     }
 
     /**
