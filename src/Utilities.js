@@ -469,6 +469,75 @@ class Utilities {
         frags.getWorldBounds(fragId, bounds);
         return bounds;
     }
+
+    /**
+     * Gets auxiliary transform of a scene fragment.
+     *
+     * Note: auxiliary transforms are used by different features of the viewer,
+     * for example, by animations or the explode tool.
+     *
+     * @param {number} fragId Fragment ID.
+     * @param {THREE.Vector3} scale Vector to be populated with scale values.
+     * @param {THREE.Quaternion} rotation Quaternion to be populated with rotation values.
+     * @param {THREE.Vector3} position Vector to be populated with offset values.
+     * @throws Exception if the fragments are not yet available.
+     *
+     * @example
+     * const fragId = 123;
+     * let scale = new THREE.Vector3(1, 1, 1);
+     * let rotation = new THREE.Quaternion(0, 0, 0, 1);
+     * let position = new THREE.Vector3(0, 0, 0);
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   utils.getFragmentAuxiliaryTransform(fragId, scale, rotation, position);
+     *   console.log('Scale', scale);
+     *   console.log('Rotation', rotation);
+     *   console.log('Position', position);
+     * });
+     */
+    getFragmentAuxiliaryTransform(fragId, scale, rotation, position) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        frags.getAnimTransform(fragId, scale, rotation, position);
+    }
+
+    /**
+     * Updates auxiliary transform of a scene fragment.
+     *
+     * Note: auxiliary transforms are used by different features of the viewer,
+     * for example, by animations or the explode tool.
+     *
+     * @param {number} fragId Fragment ID.
+     * @param {THREE.Vector3} [scale] Vector with new scale values.
+     * @param {THREE.Quaternion} [rotation] Quaternion with new rotation values.
+     * @param {THREE.Vector3} [position] Vector with new offset values.
+     * @throws Exception if the fragments are not yet available.
+     *
+     * @example
+     * const fragId = 123;
+     * const scale = new THREE.Vector3(2.0, 3.0, 4.0);
+     * const position = new THREE.Vector3(5.0, 6.0, 7.0);
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   utils.setFragmentAuxiliaryTransform(fragId, scale, null, position);
+     * });
+     */
+    setFragmentAuxiliaryTransform(fragId, scale, rotation, position) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        frags.updateAnimTransform(fragId, scale, rotation, position);
+    }
+
+    /**
+     * Re-renders entire scene, including overlay scenes. Should only be called
+     * when absolutely needed, for example after updating aux. transforms
+     * of multiple fragments using {@link setFragmentAuxiliaryTransform}.
+     */
+    refresh() {
+        this.impl.invalidate(true, true, true);
+    }
 }
 
 Autodesk = Autodesk || {};
