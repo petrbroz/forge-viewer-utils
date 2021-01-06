@@ -98,7 +98,7 @@
       
     
 
-    <h3>Classes</h3><ul><li id="Utilities-nav"><a href="Utilities.html">Utilities</a><ul class='methods'><li data-type="method" id="Utilities-Initialize-nav"><a href="Utilities.html#.Initialize">Initialize</a></li><li data-type="method" id="Utilities-addCustomMesh-nav"><a href="Utilities.html#addCustomMesh">addCustomMesh</a></li><li data-type="method" id="Utilities-enumerateFragments-nav"><a href="Utilities.html#enumerateFragments">enumerateFragments</a></li><li data-type="method" id="Utilities-enumerateLeafNodes-nav"><a href="Utilities.html#enumerateLeafNodes">enumerateLeafNodes</a></li><li data-type="method" id="Utilities-enumerateNodes-nav"><a href="Utilities.html#enumerateNodes">enumerateNodes</a></li><li data-type="method" id="Utilities-getFragmentBounds-nav"><a href="Utilities.html#getFragmentBounds">getFragmentBounds</a></li><li data-type="method" id="Utilities-getFragmentTransform-nav"><a href="Utilities.html#getFragmentTransform">getFragmentTransform</a></li><li data-type="method" id="Utilities-listFragments-nav"><a href="Utilities.html#listFragments">listFragments</a></li><li data-type="method" id="Utilities-listLeafNodes-nav"><a href="Utilities.html#listLeafNodes">listLeafNodes</a></li><li data-type="method" id="Utilities-listNodes-nav"><a href="Utilities.html#listNodes">listNodes</a></li><li data-type="method" id="Utilities-load-nav"><a href="Utilities.html#load">load</a></li><li data-type="method" id="Utilities-rayCast-nav"><a href="Utilities.html#rayCast">rayCast</a></li><li data-type="method" id="Utilities-removeCustomMesh-nav"><a href="Utilities.html#removeCustomMesh">removeCustomMesh</a></li></ul></li></ul><h3 id="global-nav"><a href="global.html">Global</a></h3>
+    <h3>Classes</h3><ul><li id="Utilities-nav"><a href="Utilities.html">Utilities</a><ul class='methods'><li data-type="method" id="Utilities-Initialize-nav"><a href="Utilities.html#.Initialize">Initialize</a></li><li data-type="method" id="Utilities-addCustomMesh-nav"><a href="Utilities.html#addCustomMesh">addCustomMesh</a></li><li data-type="method" id="Utilities-enumerateFragments-nav"><a href="Utilities.html#enumerateFragments">enumerateFragments</a></li><li data-type="method" id="Utilities-enumerateLeafNodes-nav"><a href="Utilities.html#enumerateLeafNodes">enumerateLeafNodes</a></li><li data-type="method" id="Utilities-enumerateNodes-nav"><a href="Utilities.html#enumerateNodes">enumerateNodes</a></li><li data-type="method" id="Utilities-getFragmentAuxTransform-nav"><a href="Utilities.html#getFragmentAuxTransform">getFragmentAuxTransform</a></li><li data-type="method" id="Utilities-getFragmentBounds-nav"><a href="Utilities.html#getFragmentBounds">getFragmentBounds</a></li><li data-type="method" id="Utilities-getFragmentOrigTransform-nav"><a href="Utilities.html#getFragmentOrigTransform">getFragmentOrigTransform</a></li><li data-type="method" id="Utilities-getFragmentTransform-nav"><a href="Utilities.html#getFragmentTransform">getFragmentTransform</a></li><li data-type="method" id="Utilities-listFragments-nav"><a href="Utilities.html#listFragments">listFragments</a></li><li data-type="method" id="Utilities-listLeafNodes-nav"><a href="Utilities.html#listLeafNodes">listLeafNodes</a></li><li data-type="method" id="Utilities-listNodes-nav"><a href="Utilities.html#listNodes">listNodes</a></li><li data-type="method" id="Utilities-load-nav"><a href="Utilities.html#load">load</a></li><li data-type="method" id="Utilities-rayCast-nav"><a href="Utilities.html#rayCast">rayCast</a></li><li data-type="method" id="Utilities-refresh-nav"><a href="Utilities.html#refresh">refresh</a></li><li data-type="method" id="Utilities-removeCustomMesh-nav"><a href="Utilities.html#removeCustomMesh">removeCustomMesh</a></li><li data-type="method" id="Utilities-setFragmentAuxTransform-nav"><a href="Utilities.html#setFragmentAuxTransform">setFragmentAuxTransform</a></li></ul></li></ul><h3 id="global-nav"><a href="global.html">Global</a></h3>
   </nav>
 
   <div id="main">
@@ -534,34 +534,11 @@ class Utilities {
     }
 
     /**
-     * Gets transformation matrix of scene fragment.
-     * @param {number} fragId Fragment ID.
-     * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
-     * @throws Exception when the fragments are not yet available.
-     *
-     * @example
-     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
-     *   try {
-     *     const transform = utils.getFragmentTransform(1);
-     *     console.log('Fragment transform', transform);
-     *   } catch(err) {
-     *     console.error('Could not retrieve fragment transform', err);
-     *   }
-     * });
-     */
-    getFragmentTransform(fragId) {
-        if (!this.viewer.model) {
-            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
-        }
-        const frags = this.viewer.model.getFragmentList();
-        let transform = new THREE.Matrix4();
-        frags.getWorldMatrix(fragId, transform);
-        return transform;
-    }
-
-    /**
      * Gets world bounding box of scene fragment.
      * @param {number} fragId Fragment ID.
+     * @param {THREE.Box3} [bounds] {@link https://threejs.org/docs/#api/en/math/Box3|Box3}
+     * to be populated with bounding box values and returned
+     * (in case you want to avoid creating a new instance for performance reasons).
      * @returns {THREE.Box3} Transformation {@link https://threejs.org/docs/#api/en/math/Box3|Box3}.
      * @throws Exception when the fragments are not yet available.
      *
@@ -575,14 +552,143 @@ class Utilities {
      *   }
      * });
      */
-    getFragmentBounds(fragId) {
+    getFragmentBounds(fragId, bounds = null) {
         if (!this.viewer.model) {
             throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
         }
         const frags = this.viewer.model.getFragmentList();
-        let bounds = new THREE.Box3();
+        bounds = bounds || new THREE.Box3();
         frags.getWorldBounds(fragId, bounds);
         return bounds;
+    }
+
+    /**
+     * Gets _original_ transformation matrix of scene fragment, i.e.,
+     * the transformation that was loaded from the Forge model.
+     *
+     * @param {number} fragId Fragment ID.
+     * @param {THREE.Matrix4} [transform] Matrix to be populated with transform values and returned
+     * (in case you want to avoid creating a new instance for performance reasons).
+     * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
+     * @throws Exception when the fragments are not yet available.
+     *
+     * @example
+     * const fragId = 123;
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *     const transform = utils.getFragmentOrigTransform(fragId);
+     *     console.log('Original fragment transform', transform);
+     * });
+     */
+    getFragmentOrigTransform(fragId, transform = null) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        transform = transform || new THREE.Matrix4();
+        frags.getOriginalWorldMatrix(fragId, transform);
+        return transform;
+    }
+
+    /**
+     * Gets _auxiliary_ transform of a scene fragment.
+     *
+     * Note: auxiliary transforms are applied "on top" of the original
+     * transforms, and are used by different features of the viewer,
+     * for example, by animations or the explode tool.
+     *
+     * @param {number} fragId Fragment ID.
+     * @param {THREE.Vector3} scale Vector to be populated with scale values.
+     * @param {THREE.Quaternion} rotation Quaternion to be populated with rotation values.
+     * @param {THREE.Vector3} position Vector to be populated with offset values.
+     * @throws Exception if the fragments are not yet available.
+     *
+     * @example
+     * const fragId = 123;
+     * let scale = new THREE.Vector3(1, 1, 1);
+     * let rotation = new THREE.Quaternion(0, 0, 0, 1);
+     * let position = new THREE.Vector3(0, 0, 0);
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   utils.getFragmentAuxTransform(fragId, scale, rotation, position);
+     *   console.log('Scale', scale);
+     *   console.log('Rotation', rotation);
+     *   console.log('Position', position);
+     * });
+     */
+    getFragmentAuxTransform(fragId, scale, rotation, position) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        frags.getAnimTransform(fragId, scale, rotation, position);
+    }
+
+    /**
+     * Sets _auxiliary_ transform of a scene fragment.
+     *
+     * Note: auxiliary transforms are applied "on top" of the original
+     * transforms, and are used by different features of the viewer,
+     * for example, by animations or the explode tool.
+     *
+     * @param {number} fragId Fragment ID.
+     * @param {THREE.Vector3} [scale] Vector with new scale values.
+     * @param {THREE.Quaternion} [rotation] Quaternion with new rotation values.
+     * @param {THREE.Vector3} [position] Vector with new offset values.
+     * @throws Exception if the fragments are not yet available.
+     *
+     * @example
+     * const fragId = 123;
+     * const scale = new THREE.Vector3(2.0, 3.0, 4.0);
+     * const position = new THREE.Vector3(5.0, 6.0, 7.0);
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   utils.setFragmentAuxTransform(fragId, scale, null, position);
+     * });
+     */
+    setFragmentAuxTransform(fragId, scale = null, rotation = null, position = null) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        frags.updateAnimTransform(fragId, scale, rotation, position);
+    }
+
+    /**
+     * Gets _final_ transformation matrix of scene fragment, i.e.,
+     * the transformation obtained by combining the _original_ and
+     * the _auxiliar_ transforms.
+     *
+     * @param {number} fragId Fragment ID.
+     * @param {THREE.Matrix4} [transform] Matrix to be populated with transform values and returned
+     * (in case you want to avoid creating a new instance for performance reasons).
+     * @returns {THREE.Matrix4} Transformation {@link https://threejs.org/docs/#api/en/math/Matrix4|Matrix4}.
+     * @throws Exception when the fragments are not yet available.
+     *
+     * @example
+     * viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function() {
+     *   try {
+     *     const transform = utils.getFragmentTransform(1);
+     *     console.log('Final fragment transform', transform);
+     *   } catch(err) {
+     *     console.error('Could not retrieve fragment transform', err);
+     *   }
+     * });
+     */
+    getFragmentTransform(fragId, transform = null) {
+        if (!this.viewer.model) {
+            throw new Error('Fragments not yet available. Wait for Autodesk.Viewing.FRAGMENTS_LOADED_EVENT event.');
+        }
+        const frags = this.viewer.model.getFragmentList();
+        transform = transform || new THREE.Matrix4();
+        frags.getWorldMatrix(fragId, transform);
+        return transform;
+    }
+
+    /**
+     * Re-renders entire scene, including overlay scenes. Should only be called
+     * when absolutely needed, for example after updating aux. transforms
+     * of multiple fragments using {@link setFragmentAuxiliaryTransform}.
+     */
+    refresh() {
+        this.impl.invalidate(true, true, true);
     }
 }
 
@@ -601,7 +707,7 @@ Autodesk.Viewing.Utilities = Utilities;
   <br class="clear">
 
   <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a>
   </footer>
 
   <script src="scripts/linenumber.js"></script>

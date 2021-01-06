@@ -96,7 +96,7 @@
       
     
 
-    <h3>Classes</h3><ul><li id="Utilities-nav"><a href="Utilities.html">Utilities</a><ul class='methods'><li data-type="method" id="Utilities-Initialize-nav"><a href="Utilities.html#.Initialize">Initialize</a></li><li data-type="method" id="Utilities-addCustomMesh-nav"><a href="Utilities.html#addCustomMesh">addCustomMesh</a></li><li data-type="method" id="Utilities-enumerateFragments-nav"><a href="Utilities.html#enumerateFragments">enumerateFragments</a></li><li data-type="method" id="Utilities-enumerateLeafNodes-nav"><a href="Utilities.html#enumerateLeafNodes">enumerateLeafNodes</a></li><li data-type="method" id="Utilities-enumerateNodes-nav"><a href="Utilities.html#enumerateNodes">enumerateNodes</a></li><li data-type="method" id="Utilities-getFragmentBounds-nav"><a href="Utilities.html#getFragmentBounds">getFragmentBounds</a></li><li data-type="method" id="Utilities-getFragmentTransform-nav"><a href="Utilities.html#getFragmentTransform">getFragmentTransform</a></li><li data-type="method" id="Utilities-listFragments-nav"><a href="Utilities.html#listFragments">listFragments</a></li><li data-type="method" id="Utilities-listLeafNodes-nav"><a href="Utilities.html#listLeafNodes">listLeafNodes</a></li><li data-type="method" id="Utilities-listNodes-nav"><a href="Utilities.html#listNodes">listNodes</a></li><li data-type="method" id="Utilities-load-nav"><a href="Utilities.html#load">load</a></li><li data-type="method" id="Utilities-rayCast-nav"><a href="Utilities.html#rayCast">rayCast</a></li><li data-type="method" id="Utilities-removeCustomMesh-nav"><a href="Utilities.html#removeCustomMesh">removeCustomMesh</a></li></ul></li></ul><h3 id="global-nav"><a href="global.html">Global</a></h3>
+    <h3>Classes</h3><ul><li id="Utilities-nav"><a href="Utilities.html">Utilities</a><ul class='methods'><li data-type="method" id="Utilities-Initialize-nav"><a href="Utilities.html#.Initialize">Initialize</a></li><li data-type="method" id="Utilities-addCustomMesh-nav"><a href="Utilities.html#addCustomMesh">addCustomMesh</a></li><li data-type="method" id="Utilities-enumerateFragments-nav"><a href="Utilities.html#enumerateFragments">enumerateFragments</a></li><li data-type="method" id="Utilities-enumerateLeafNodes-nav"><a href="Utilities.html#enumerateLeafNodes">enumerateLeafNodes</a></li><li data-type="method" id="Utilities-enumerateNodes-nav"><a href="Utilities.html#enumerateNodes">enumerateNodes</a></li><li data-type="method" id="Utilities-getFragmentAuxTransform-nav"><a href="Utilities.html#getFragmentAuxTransform">getFragmentAuxTransform</a></li><li data-type="method" id="Utilities-getFragmentBounds-nav"><a href="Utilities.html#getFragmentBounds">getFragmentBounds</a></li><li data-type="method" id="Utilities-getFragmentOrigTransform-nav"><a href="Utilities.html#getFragmentOrigTransform">getFragmentOrigTransform</a></li><li data-type="method" id="Utilities-getFragmentTransform-nav"><a href="Utilities.html#getFragmentTransform">getFragmentTransform</a></li><li data-type="method" id="Utilities-listFragments-nav"><a href="Utilities.html#listFragments">listFragments</a></li><li data-type="method" id="Utilities-listLeafNodes-nav"><a href="Utilities.html#listLeafNodes">listLeafNodes</a></li><li data-type="method" id="Utilities-listNodes-nav"><a href="Utilities.html#listNodes">listNodes</a></li><li data-type="method" id="Utilities-load-nav"><a href="Utilities.html#load">load</a></li><li data-type="method" id="Utilities-rayCast-nav"><a href="Utilities.html#rayCast">rayCast</a></li><li data-type="method" id="Utilities-refresh-nav"><a href="Utilities.html#refresh">refresh</a></li><li data-type="method" id="Utilities-removeCustomMesh-nav"><a href="Utilities.html#removeCustomMesh">removeCustomMesh</a></li><li data-type="method" id="Utilities-setFragmentAuxTransform-nav"><a href="Utilities.html#setFragmentAuxTransform">setFragmentAuxTransform</a></li></ul></li></ul><h3 id="global-nav"><a href="global.html">Global</a></h3>
   </nav>
 
   <div id="main">
@@ -114,9 +114,11 @@
 
   <section class="readme">
     <article>
-      <h1>Forge Viewer Utils</h1><p>Collection of helpful tools for <a href="https://forge.autodesk.com/en/docs/viewer">Autodesk Forge Viewer</a>
+      <h1>Forge Viewer Utils</h1>
+<p>Collection of helpful tools for <a href="https://forge.autodesk.com/en/docs/viewer">Autodesk Forge Viewer</a>
 that are not (yet) part of its official <a href="https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d">API</a>.</p>
-<h2>Why?</h2><p>During <a href="http://autodeskcloudaccelerator.com">Forge Accelerator</a> events, there are often recurring themes
+<h2>Why?</h2>
+<p>During <a href="http://autodeskcloudaccelerator.com">Forge Accelerator</a> events, there are often recurring themes
 of features that the attendees want to build, for example, finding a scene object under the mouse cursor,
 or being able to change the transform of an object. Unfortunately, many of these features cannot be built
 using the official <a href="https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d">APIs</a>,
@@ -128,16 +130,23 @@ sending developers into the dreaded, undocumented area of internal APIs, also kn
 <li>provide more documentation to both the official and the <code>viewer.impl</code> APIs</li>
 <li>collect feedback for the <a href="https://forge.autodesk.com/en/docs/viewer">Forge Viewer</a> dev team</li>
 </ul>
-<h2>Usage</h2><p>Drop the library in your webpage. You can either use the latest <code>master</code> version:</p>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://petrbroz.github.io/forge-viewer-utils/master/Utilities.js&quot;>&lt;/script></code></pre><p>Or a specific tagged version, for example <code>v0.7.0</code>:</p>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://petrbroz.github.io/forge-viewer-utils/0.7.0/Utilities.js&quot;>&lt;/script></code></pre><blockquote>
+<h2>Usage</h2>
+<p>Drop the library in your webpage. You can either use the latest <code>master</code> version:</p>
+<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://petrbroz.github.io/forge-viewer-utils/master/Utilities.js&quot;>&lt;/script>
+</code></pre>
+<p>Or a specific tagged version, for example <code>v0.7.0</code>:</p>
+<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://petrbroz.github.io/forge-viewer-utils/0.7.0/Utilities.js&quot;>&lt;/script>
+</code></pre>
+<blockquote>
 <p>Similarly, the documentation is available both for the latest <a href="https://petrbroz.github.io/forge-viewer-utils/master/index.html">master</a>
 version and for all tagged versions, for example, <a href="https://petrbroz.github.io/forge-viewer-utils/0.7.0/index.html">0.7.0</a>.</p>
 </blockquote>
 <p>Start using the <code>Autodesk.Viewing.Utilities</code> class, either by wrapping an existing instance
 of <a href="https://forge.autodesk.com/en/docs/viewer/v6/reference/javascript/viewer3d">Viewer3D</a>:</p>
 <pre class="prettyprint source lang-js"><code>const utils = new Autodesk.Viewing.Utilities(viewer3d);
-utils.load(&quot;your-urn&quot;);</code></pre><p>Or by initializing everything using the static method <code>Autodesk.Viewing.Utilities.Initialize</code>:</p>
+utils.load(&quot;your-urn&quot;);
+</code></pre>
+<p>Or by initializing everything using the static method <code>Autodesk.Viewing.Utilities.Initialize</code>:</p>
 <pre class="prettyprint source lang-html"><code>&lt;div id=&quot;viewer&quot;>&lt;/div>
 &lt;script>
   async function getAccessToken(callback) {
@@ -155,11 +164,16 @@ utils.load(&quot;your-urn&quot;);</code></pre><p>Or by initializing everything u
       }
   }
   run();
-&lt;/script></code></pre><h2>Development</h2><ul>
+&lt;/script>
+</code></pre>
+<h2>Development</h2>
+<ul>
 <li>install dependencies: <code>npm install</code></li>
 <li>build code documentation: <code>npm run build:docs</code></li>
-<li>running the examples<ul>
-<li>you need two things: Forge app <em>credentials</em>, and an <em>urn</em> of a model to view<ul>
+<li>running the examples
+<ul>
+<li>you need two things: Forge app <em>credentials</em>, and an <em>urn</em> of a model to view
+<ul>
 <li>you can create a free Forge app at https://forge.autodesk.com</li>
 <li>to upload and translate a model for viewing, see the official <a href="https://forge.autodesk.com/en/docs/model-derivative/v2/tutorials/prepare-file-for-viewer">tutorial</a></li>
 </ul>
@@ -183,7 +197,7 @@ for example: http://localhost:3000/basic.html?dXyabcdefgh</li>
   <br class="clear">
 
   <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a>
   </footer>
 
   <script src="scripts/linenumber.js"></script>
