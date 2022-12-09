@@ -18,7 +18,7 @@
     "example": "examples"
   },
   "devDependencies": {
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "jsdoc": "^3.6.6",
     "jsdoc-template": "git+https://github.com/braintree/jsdoc-template.git"
   }
